@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Battery Life 🔋</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .battery-container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      min-width: 250px;
+    }
+
+    .battery-level {
+      font-size: 60px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .charging-status {
+      font-size: 1.2rem;
+      margin-top: 5px;
+    }
+
+    .charging {
+      color: #00ffad;
+    }
+
+    .not-charging {
+      color: #ff6b6b;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔋 My Battery Life</h1>
+  <div class="battery-container">
+    <div class="battery-level" id="battery-level">--%</div>
+    <div class="charging-status" id="charging-status">Loading...</div>
+  </div>
+
+  <script>
+    navigator.getBattery().then(battery => {
+      function updateBatteryInfo() {
+        const level = Math.round(battery.level * 100);
+        document.getElementById('battery-level').textContent = level + '%';
+        document.getElementById('charging-status').textContent = battery.charging ? 'Charging ⚡' : 'Not Charging 🔋';
+
+        document.getElementById('charging-status').className = 'charging-status ' + (battery.charging ? 'charging' : 'not-charging');
+      }
+
+      updateBatteryInfo();
+
+      battery.addEventListener('levelchange', updateBatteryInfo);
+      battery.addEventListener('chargingchange', updateBatteryInfo);
+    });
+  </script>
+
+</body>
+</html>
